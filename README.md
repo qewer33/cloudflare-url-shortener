@@ -1,6 +1,6 @@
 # Qewer's URL Shortener
 
-A simple URL shortener built with Rust and Cloudflate Workers.
+A simple URL shortener built with Rust and Cloudflare Workers.
 
 It has four routes:
 
