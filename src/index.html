@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Qewer's URL Shortener</title>
+    </head>
+    <body>
+        <h1>Qewer's URL Shortener</h1>
+        <div class="section">
+            <div class="selector">
+                <input type="radio" id="create" name="action" value="create" class="radio" checked />
+                <label for="create"> CREATE </label>
+                <input type="radio" id="delete" name="action" value="delete" class="radio" />
+                <label for="delete"> DELETE </label>
+            </div>
+            <input type="password" placeholder="SECRET" id="secret-input" />
+            <input type="text" placeholder="KEY" id="key-input" />
+            <input type="text" placeholder="URL" id="url-input" />
+            <button id="apply-button" onclick="apply()">APPLY</button>
+            <div id="api-output">
+                <h3 id="output-header">API OUTPUT</h3>
+                <p id="output-text"></p>
+            </div>
+        </div>
+    </body>
+</html>
+
+<script>
+    let action = "create";
+
+    let secretInput = document.getElementById("secret-input");
+    let keyInput = document.getElementById("key-input");
+    let urlInput = document.getElementById("url-input");
+    let radios = document.getElementsByClassName("radio");
+    let outputText = document.getElementById("output-text");
+
+    for (var i = 0, max = radios.length; i < max; i++) {
+        radios[i].onclick = function () {
+            action = this.value;
+            if (this.value === "delete") urlInput.style.display = "none";
+            else urlInput.style.display = "block";
+        };
+    }
+
+    async function apply() {
+        let secret = secretInput.value;
+        let key = keyInput.value;
+        let url = urlInput.value;
+        action === "create" ? await createRequest(secret, key, url) : await deleteRequest(secret, key);
+    }
+
+    async function createRequest(secret, key, url) {
+        const response = await fetch("https://s.qewer.dev/create/" + secret, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                key: key,
+                url: url,
+            }),
+        });
+        outputText.innerHTML = response.text();
+        outputText.style.color = response.ok ? "#80E554" : "#E14648";
+    }
+
+    async function deleteRequest(secret, key) {
+        const response = await fetch("https://s.qewer.dev/delete/" + secret, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                key: key,
+            }),
+        });
+        outputText.innerHTML = response.text();
+        outputText.style.color = response.ok ? "#80E554" : "#E14648";
+    }
+</script>
+
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap");
+
+    body {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        font-family: "JetBrains Mono", monospace;
+        background-color: #1d1d1d;
+        justify-content: center;
+        align-items: center;
+    }
+
+    h1 {
+        color: #ffffff;
+    }
+
+    .section {
+        width: 500px;
+        display: flex;
+        flex-direction: column;
+        transform: skew(-3deg);
+    }
+
+    .section > * {
+        margin-top: 10px;
+    }
+
+    button {
+        color: #ffffff;
+        background-color: #0578f0;
+        padding: 15px;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 700;
+        text-decoration: none;
+        text-align: center;
+        border: none;
+        font-size: 18px;
+    }
+
+    button:hover {
+        background-color: #0060c7;
+    }
+
+    input[type="password"],
+    input[type="text"],
+    .selector {
+        color: #ffffff;
+        background-color: #313131;
+        padding: 15px;
+        font-family: "JetBrains Mono", monospace;
+        text-decoration: none;
+        text-align: center;
+        border: none;
+        font-size: 18px;
+    }
+
+    input[type="password"]:focus,
+    input[type="text"]:focus {
+        border: none;
+        outline: none;
+        background-color: #0578f0;
+    }
+
+    .selector {
+        display: flex;
+    }
+
+    label {
+        padding: 10px;
+        font-weight: 700;
+    }
+
+    label:hover {
+        background-color: #252525;
+    }
+
+    input[type="radio"] {
+        display: none;
+    }
+
+    input[type="radio"]:checked + label {
+        background-color: #0578f0;
+    }
+
+    .selector > * {
+        width: 50%;
+    }
+
+    #api-output {
+        height: 200px;
+        background-color: #313131;
+        margin-top: 30px;
+    }
+
+    #output-header {
+        width: 100%;
+        background-color: #0578f0;
+        color: #ffffff;
+        text-align: center;
+        margin-top: 0;
+        padding: 10px 0;
+    }
+
+    #output-text {
+        color: #ffffff;
+    }
+</style>
