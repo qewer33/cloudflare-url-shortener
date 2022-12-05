@@ -2,6 +2,8 @@
 
 A simple URL shortener built with Rust and Cloudflare Workers.
 
+![screenshot_1](https://github.com/qewer33/cloudflare-url-shortener/blob/main/assets/screenshot.png?raw=true)
+
 It has four routes:
 
 `/`: Shows create/delete user interface
