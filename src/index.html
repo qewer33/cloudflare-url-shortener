@@ -62,8 +62,8 @@
                 url: url,
             }),
         });
-        outputText.innerHTML = response.text();
-        outputText.style.color = response.ok ? "#80E554" : "#E14648";
+        outputText.innerHTML = await response.text();
+        outputText.style.color = (await response.ok) ? "#80E554" : "#E14648";
     }
 
     async function deleteRequest(secret, key) {
@@ -77,8 +77,8 @@
                 key: key,
             }),
         });
-        outputText.innerHTML = response.text();
-        outputText.style.color = response.ok ? "#80E554" : "#E14648";
+        outputText.innerHTML = await response.text();
+        outputText.style.color = (await response.ok) ? "#80E554" : "#E14648";
     }
 </script>
 
@@ -93,6 +93,7 @@
         background-color: #1d1d1d;
         justify-content: center;
         align-items: center;
+        margin: 0;
     }
 
     h1 {
@@ -188,5 +189,7 @@
 
     #output-text {
         color: #ffffff;
+        padding: 13px;
+        margin-top: -15px;
     }
 </style>

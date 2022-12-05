@@ -4,7 +4,7 @@ A simple URL shortener built with Rust and Cloudflare Workers.
 
 It has four routes:
 
-`/`: Shows message
+`/`: Shows create/delete user interface
 
 `/:key`: This is the main route for shortened URLs. It responds with a redirect HTML page if the key is in the KV, shows a 404 page otherwise
 
