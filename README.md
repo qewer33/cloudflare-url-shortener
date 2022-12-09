@@ -1,6 +1,8 @@
 # Qewer's URL Shortener
 
-A simple URL shortener built with Rust and Cloudflare Workers.
+A simple URL shortener built with Rust and Cloudflare Workers. It includes a fairly straightforward web UI that uses my main website's design style.
+
+Check out the URL shortener at https://s.qewer.dev and my main website at https://qewer.dev
 
 ![screenshot_1](https://github.com/qewer33/cloudflare-url-shortener/blob/main/assets/screenshot.png?raw=true)
 
