@@ -1,3 +1,4 @@
+use is_url::is_url;
 use serde::Deserialize;
 use worker::*;
 
@@ -17,12 +18,12 @@ struct DeleteRequest {
 struct UrlShortener;
 
 impl UrlShortener {
-    fn serve_index(_: Request, _: RouteContext<()>) -> Result<Response> {
+    fn serve_index(_req: Request, _ctx: RouteContext<()>) -> Result<Response> {
         let html = include_str!("index.html");
         Response::from_html(html)
     }
 
-    async fn redirect(mut req: Request, ctx: RouteContext<()>) -> Result<Response> {
+    async fn redirect(_req: Request, ctx: RouteContext<()>) -> Result<Response> {
         if let Some(key) = ctx.param("key") {
             let url = ctx.kv("KV")?.get(key.trim()).text().await;
 
@@ -59,7 +60,13 @@ impl UrlShortener {
                 let req_body: Result<CreateRequest> = req.json().await;
 
                 if let Ok(req_body) = req_body {
-                    let kv_result = ctx.kv("KV")?.put(&req_body.key, req_body.url);
+                    if !is_url(&req_body.url) {
+                        return Response::error("Bad Request: Invalid URL", 400);
+                    }
+
+                    let kv_result = ctx
+                        .kv("KV")?
+                        .put(&req_body.key.replace(" ", "-"), &req_body.url);
 
                     if let Ok(kv_result) = kv_result {
                         let kv_result = kv_result.execute().await;
@@ -87,9 +94,9 @@ impl UrlShortener {
                 let req_body: Result<DeleteRequest> = req.json().await;
 
                 if let Ok(req_body) = req_body {
-                    let kv_result = ctx.kv("KV")?.delete(&req_body.key).await;
+                    let kv_result = ctx.kv("KV")?.delete(&req_body.key.replace(" ", "-")).await;
 
-                    if let Ok(kv_result) = kv_result {
+                    if kv_result.is_ok() {
                         return Response::from_html("Key Successfully Deleted");
                     }
                     return Response::error("Bad Request: KV Operation Failed", 400);
