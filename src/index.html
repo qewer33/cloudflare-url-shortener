@@ -4,10 +4,10 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Qewer's URL Shortener</title>
+        <title>qewer's URL Shortener</title>
     </head>
     <body>
-        <h1>Qewer's URL Shortener</h1>
+        <h1>qewer's URL Shortener</h1>
         <div class="section">
             <div class="selector">
                 <input type="radio" id="create" name="action" value="create" class="radio" checked />
@@ -99,6 +99,7 @@
 
     h1 {
         color: #ffffff;
+        text-align: center;
     }
 
     .section {
@@ -133,19 +134,18 @@
     .selector {
         color: #ffffff;
         background-color: #313131;
-        padding: 15px;
+        border: solid 3px #313131;
+        padding: 12px;
         font-family: "JetBrains Mono", monospace;
         text-decoration: none;
         text-align: center;
-        border: none;
         font-size: 18px;
     }
 
     input[type="password"]:focus,
     input[type="text"]:focus {
-        border: none;
+        border-color: #0578f0;
         outline: none;
-        background-color: #0578f0;
     }
 
     .selector {
@@ -174,7 +174,7 @@
     }
 
     #api-output {
-        height: 200px;
+        height: 150px;
         background-color: #313131;
         margin-top: 30px;
     }
@@ -192,5 +192,12 @@
         color: #ffffff;
         padding: 13px;
         margin-top: -15px;
+    }
+
+    @media only screen and (max-width: 800px) {
+        .section {
+            width: 90%;
+            transform: skew(0);
+        }
     }
 </style>
