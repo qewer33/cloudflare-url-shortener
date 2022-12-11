@@ -66,7 +66,7 @@ impl UrlShortener {
 
                     let kv_result = ctx
                         .kv("KV")?
-                        .put(&req_body.key.replace(" ", "-"), &req_body.url);
+                        .put(&req_body.key.replace(' ', "-"), &req_body.url);
 
                     if let Ok(kv_result) = kv_result {
                         let kv_result = kv_result.execute().await;
@@ -94,7 +94,7 @@ impl UrlShortener {
                 let req_body: Result<DeleteRequest> = req.json().await;
 
                 if let Ok(req_body) = req_body {
-                    let kv_result = ctx.kv("KV")?.delete(&req_body.key.replace(" ", "-")).await;
+                    let kv_result = ctx.kv("KV")?.delete(&req_body.key.replace(' ', "-")).await;
 
                     if kv_result.is_ok() {
                         return Response::from_html("Key Successfully Deleted");
