@@ -36,7 +36,7 @@
     let radios = document.getElementsByClassName("radio");
     let outputText = document.getElementById("output-text");
 
-    for (var i = 0, max = radios.length; i < max; i++) {
+    for (let i = 0; i < radios.length; i++) {
         radios[i].onclick = function () {
             action = this.value;
             if (this.value === "delete") urlInput.style.display = "none";
