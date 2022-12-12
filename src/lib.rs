@@ -1,4 +1,3 @@
-use is_url::is_url;
 use serde::Deserialize;
 use worker::*;
 
@@ -60,7 +59,7 @@ impl UrlShortener {
                 let req_body: Result<CreateRequest> = req.json().await;
 
                 if let Ok(req_body) = req_body {
-                    if !is_url(&req_body.url) {
+                    if Url::parse(req_body.url.as_str()).is_err() {
                         return Response::error("Bad Request: Invalid URL", 400);
                     }
 
