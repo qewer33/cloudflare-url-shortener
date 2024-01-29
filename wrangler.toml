@@ -8,7 +8,7 @@ kv_namespaces = [
 ]
 
 [build]
-command = "cargo install -q worker-build && worker-build --release" # required
+command = "cargo install -q worker-build --version ^0.0.8 && worker-build --release" # required
 
 [build.upload]
 dir = "build/worker"

@@ -48,7 +48,9 @@ impl UrlShortener {
                 return Response::from_html(html);
             }
             let html404 = include_str!("404.html");
-            return Response::from_html(html404);
+            return Response::from_html(html404).map(|res| {
+                res.with_status(404)
+            });
         }
         Response::error("Bad Request: Missing Parameter", 400)
     }
